@@ -1,0 +1,19 @@
+{
+    "name": "koati-site-starter",
+    "private": true,
+    "type": "module",
+    "description": "A marketing site you own: words as files, any host, changed by your own assistant inside your brand's rules.",
+    "license": "MIT",
+    "scripts": {
+        "dev": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview",
+        "deploy": "astro build && wrangler deploy"
+    },
+    "dependencies": {
+        "astro": "^7.3.3"
+    },
+    "devDependencies": {
+        "wrangler": "^4.42.0"
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "servers": {
+        "koati": { "type": "http", "url": "https://koati.app/mcp/koati" },
+        "github": { "type": "http", "url": "https://api.githubcopilot.com/mcp/" }
+    }
+}

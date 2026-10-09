@@ -1,0 +1,6 @@
+{
+    // Static assets only: dist/ is the whole site.
+    "name": "koati-site-starter",
+    "compatibility_date": "2026-09-01",
+    "assets": { "directory": "./dist" }
+}

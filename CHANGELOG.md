@@ -2,6 +2,11 @@
 
 What changed in the starter, newest first. A site made from it brings these in through its own assistant (`AGENTS.md` § Updating from the starter). Each entry says what changed and where, so an assistant can tell which a site already has.
 
+## 2026-10-23 — Parts named by their field
+
+- `data-koati-field` beside `data-koati-src` on the heading, the lede and the call to action (`src/pages/[...slug].astro`): `heading`, `lede`, `cta.label`. Koati names the part from it ("Heading", "CTA label"). Written on production too, since it names a field, never a file.
+- To bring it in: add `data-koati-field="<the frontmatter key>"` to each element that already has `data-koati-src`.
+
 ## 2026-10-23 — The first one
 
 - Astro site, one Markdown file per page in `src/content/pages/`, with `heading`, `lede` and `cta` in the frontmatter.

@@ -15,9 +15,9 @@ const { data } = page;
 
 <Base title={data.title} description={data.description}>
     <main>
-        <h1 data-koati-src={src(page, 'heading')}>{data.heading}</h1>
-        <p class="lede" data-koati-src={src(page, 'lede')}>{data.lede}</p>
-        {data.cta && <a class="cta" href={data.cta.href} data-koati-src={src(page, 'label')}>{data.cta.label}</a>}
+        <h1 data-koati-src={src(page, 'heading')} data-koati-field="heading">{data.heading}</h1>
+        <p class="lede" data-koati-src={src(page, 'lede')} data-koati-field="lede">{data.lede}</p>
+        {data.cta && <a class="cta" href={data.cta.href} data-koati-src={src(page, 'label')} data-koati-field="cta.label">{data.cta.label}</a>}
         <Content />
     </main>
 </Base>

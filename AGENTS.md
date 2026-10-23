@@ -25,6 +25,7 @@ When somebody asks you to bring this site up to date with the starter, read `CHA
 - The page: `src/pages/[...slug].astro`. The layout and Koati's one line: `src/layouts/Base.astro`, `src/lib/koati.ts`.
 - The brand's colors and type: `src/styles/tokens.css`.
 - `data-koati-src="file:line"` on an element says where its words live. Keep it on anything you add that people will want to point at.
+- `data-koati-field="name"` beside it says which field of the content it shows (`heading`, `lede`, `cta.label`), so Koati can name the part. Unlike `data-koati-src` it's on production too: it names a field, never a file. Add both to anything new people will point at.
 
 ## Tools to connect
 

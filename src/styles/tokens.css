@@ -1,0 +1,8 @@
+/* The brand's tokens. On its first pull request the assistant writes these from Koati's get_brand (AGENTS.md). */
+:root {
+    --ink: #16201b;
+    --paper: #faf8f3;
+    --accent: #e8572a;
+    --font: system-ui, sans-serif;
+    --measure: 38rem;
+}

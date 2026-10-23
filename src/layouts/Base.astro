@@ -1,5 +1,6 @@
 ---
 import { snippet } from '../lib/koati';
+import '../styles/tokens.css';
 
 interface Props {
     title: string;
@@ -18,11 +19,7 @@ const { title, description } = Astro.props;
         <meta name="description" content={description} />
         <style is:global>
             :root {
-                --ink: #16201b;
-                --paper: #faf8f3;
-                --accent: #e8572a;
-                --measure: 38rem;
-                font-family: system-ui, sans-serif;
+                font-family: var(--font);
                 color: var(--ink);
                 background: var(--paper);
             }

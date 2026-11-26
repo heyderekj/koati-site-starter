@@ -2,6 +2,12 @@
 
 What changed in the starter, newest first. A site made from it brings these in through its own assistant (`AGENTS.md` § Updating from the starter). Each entry says what changed and where, so an assistant can tell which a site already has.
 
+## 2026-11-26 — Koati can read and change the words
+
+- `/.well-known/koati-content.json`, built on every deploy from `src/content/pages/*.md` (`src/pages/.well-known/koati-content.json.ts`, `src/lib/content-manifest.ts`). Version 2 of Koati's format: each page's heading, lede and button label, and the file and frontmatter key the first two live at. With it, Koati reads the site's words and can turn a change somebody approves into a pull request on a `koati/` branch. The button label is nested, so its changes still go to your assistant.
+- `data-koati-field` now names the page too: `index.heading`, `index.lede`, `index.cta_label` (was `heading`, `lede`, `cta.label`). Koati reads it as `entry.field`, so the bare names never matched an entry.
+- To bring it in: copy both new files, add any of your own frontmatter fields to `FIELDS`, and change each `data-koati-field` to `{field(page, '<slug>')}`. Check that your host serves `/.well-known/koati-content.json` after the deploy.
+
 ## 2026-10-23 — Parts named by their field
 
 - `data-koati-field` beside `data-koati-src` on the heading, the lede and the call to action (`src/pages/[...slug].astro`): `heading`, `lede`, `cta.label`. Koati names the part from it ("Heading", "CTA label"). Written on production too, since it names a field, never a file.

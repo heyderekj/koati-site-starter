@@ -17,7 +17,7 @@ Until the site carries the company's brand, `src/styles/tokens.css` holds the st
 
 ## Updating from the starter
 
-When somebody asks you to bring this site up to date with the starter, read `CHANGELOG.md` here and the one at https://github.com/heyderekj/koati-site-starter. Make each entry this site doesn't have yet on one branch, and open one pull request that lists them. Keep this site's words, pages and tokens; they're the company's. Then add those entries to this `CHANGELOG.md` in the same pull request. Koati never writes to this repository — the update is yours to make and a person's to merge.
+When somebody asks you to bring this site up to date with the starter, read `CHANGELOG.md` here and the one at https://github.com/heyderekj/koati-site-starter. Make each entry this site doesn't have yet on one branch, and open one pull request that lists them. Keep this site's words, pages and tokens; they're the company's. Then add those entries to this `CHANGELOG.md` in the same pull request. Koati doesn't make these updates — the update is yours to make and a person's to merge.
 
 ## Where things are
 
@@ -25,7 +25,8 @@ When somebody asks you to bring this site up to date with the starter, read `CHA
 - The page: `src/pages/[...slug].astro`. The layout and Koati's one line: `src/layouts/Base.astro`, `src/lib/koati.ts`.
 - The brand's colors and type: `src/styles/tokens.css`.
 - `data-koati-src="file:line"` on an element says where its words live. Keep it on anything you add that people will want to point at.
-- `data-koati-field="name"` beside it says which field of the content it shows (`heading`, `lede`, `cta.label`), so Koati can name the part. Unlike `data-koati-src` it's on production too: it names a field, never a file. Add both to anything new people will point at.
+- `data-koati-field="<page>.<field>"` beside it says which page and field the part shows (`index.heading`, `index.lede`, `index.cta_label`), so Koati can name the part and find its words. Unlike `data-koati-src` it's on production too: it names a field, never a file. Add both to anything new people will point at.
+- `/.well-known/koati-content.json` is built from `src/content/pages/*.md` (`src/pages/.well-known/koati-content.json.ts`, fields in `src/lib/content-manifest.ts`). It's how Koati reads the site's words and, for a field with a `source`, opens a pull request on a `koati/` branch when somebody changes the words in Koati and a person approves. A new field people will edit: add it to `FIELDS`, with its frontmatter `key` when it's a top-level key on one line.
 
 ## Tools to connect
 

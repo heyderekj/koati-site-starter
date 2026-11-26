@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { src } from '../lib/koati';
+import { field } from '../lib/content-manifest';
 
 export async function getStaticPaths() {
     const pages = await getCollection('pages');
@@ -15,9 +16,9 @@ const { data } = page;
 
 <Base title={data.title} description={data.description}>
     <main>
-        <h1 data-koati-src={src(page, 'heading')} data-koati-field="heading">{data.heading}</h1>
-        <p class="lede" data-koati-src={src(page, 'lede')} data-koati-field="lede">{data.lede}</p>
-        {data.cta && <a class="cta" href={data.cta.href} data-koati-src={src(page, 'label')} data-koati-field="cta.label">{data.cta.label}</a>}
+        <h1 data-koati-src={src(page, 'heading')} data-koati-field={field(page, 'heading')}>{data.heading}</h1>
+        <p class="lede" data-koati-src={src(page, 'lede')} data-koati-field={field(page, 'lede')}>{data.lede}</p>
+        {data.cta && <a class="cta" href={data.cta.href} data-koati-src={src(page, 'label')} data-koati-field={field(page, 'cta_label')}>{data.cta.label}</a>}
         <Content />
     </main>
 </Base>

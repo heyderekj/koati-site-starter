@@ -1,4 +1,4 @@
-/* The brand's tokens. On its first pull request the assistant writes these from Koati's get_brand (AGENTS.md). */
+/* The brand's tokens, the same values as brand/tokens.json. The assistant writes both from Koati's get_brand (AGENTS.md § The brand). */
 :root {
     --ink: #16201b;
     --paper: #faf8f3;

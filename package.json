@@ -8,7 +8,9 @@
         "dev": "astro dev",
         "build": "astro build",
         "preview": "astro preview",
-        "deploy": "astro build && wrangler deploy"
+        "deploy": "astro build && wrangler deploy",
+        "brand-check": "node scripts/brand-check.mjs",
+        "test": "node --test scripts/brand-check.test.mjs"
     },
     "dependencies": {
         "astro": "^7.3.3"

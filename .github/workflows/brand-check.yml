@@ -1,0 +1,26 @@
+# The brand check on every pull request that changes the site or its brand:
+# `npm run brand-check`, plain Node, nothing installed or built. It takes a
+# few seconds, which GitHub counts as one minute on a private repository and
+# nothing on a public one. Koati reads its result onto the card the pull
+# request is for, and never runs it.
+name: Brand check
+
+on:
+    pull_request:
+        paths: ['src/**', 'brand/**', 'scripts/brand-check.mjs']
+
+permissions:
+    contents: read
+
+jobs:
+    brand-check:
+        name: Brand check
+        # The starter itself has no brand of its own to keep. A site made from it runs this.
+        if: github.repository != 'heyderekj/koati-site-starter'
+        runs-on: ubuntu-latest
+        timeout-minutes: 2
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  persist-credentials: false
+            - run: node scripts/brand-check.mjs

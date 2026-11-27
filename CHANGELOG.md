@@ -2,6 +2,14 @@
 
 What changed in the starter, newest first. A site made from it brings these in through its own assistant (`AGENTS.md` § Updating from the starter). Each entry says what changed and where, so an assistant can tell which a site already has.
 
+## 2026-11-27 — The brand check
+
+- `npm run brand-check` (`scripts/brand-check.mjs`): plain Node, nothing to install. It reads `brand/` and fails on a color or a font the kit hasn't got (when `brand/rules.json` has Koati's "only the kit's colors" or "only the kit's type"), on words a word rule rules out in `src/content/pages/`, and on a `src/styles/tokens.css` that says something `brand/tokens.json` doesn't. Each problem has its file and line, and for a color the kit's closest one. `npm test` checks the check.
+- `.github/workflows/brand-check.yml` runs it on each pull request that changes `src/` or `brand/`: a few seconds, no install or build, one billed minute on a private repository and none on a public one. Koati reads the result onto the card.
+- `AGENTS.md`: run it before you open the pull request.
+- `src/layouts/Base.astro`: the button's words are `var(--paper)`, not `white`, so the starter passes its own check.
+- To bring it in: copy `scripts/brand-check.mjs`, `scripts/brand-check.test.mjs` and `.github/workflows/brand-check.yml`, add `brand-check` and `test` to `package.json`'s scripts, and take the line from rule 4 and § The brand in `AGENTS.md`. Remove the workflow's `if:` line, which only skips the starter's own repository. If your site shows more fields than `heading`, `lede` and the button label, add them to `FIELDS` at the top of the script.
+
 ## 2026-11-27 — The brand as files in the repository
 
 - `brand/DESIGN.md`, `brand/tokens.json` and `brand/rules.json`. The map says where the brand lives and what never to do; the two JSON files are a dated copy of what was approved in Koati, written by your assistant from `get_brand`. An assistant that never calls Koati still finds the brand in the repository.

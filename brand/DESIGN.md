@@ -22,6 +22,12 @@ Read this before you write a line of markup or CSS. It's short on purpose: it sa
 - A word or a length `brand/rules.json` rules out.
 - Anything from `pending` in Koati's `get_brand`. Nobody has approved it yet.
 
+## The check
+
+`npm run brand-check` reads these files and fails on what they rule out: a color or a font that isn't the kit's (when `rules.json` has "only the kit's colors" or "only the kit's type"), a word or a length a word rule rules out, and a `tokens.css` that says something `tokens.json` doesn't. Run it before you open a pull request. Every pull request runs it again (`.github/workflows/brand-check.yml`), and Koati puts what it found on the card.
+
+A kit color written out as a hex passes, with a note to use its variable. Lines at a width, and a rule for one element picked on the site, need the page in a browser: Koati checks those on the live page.
+
 ## Keeping it current
 
 These files change only when the brand does: a brand card approved in Koati and left for an assistant (`AGENTS.md` § The brand). `agreed` in both JSON files says which approval they were copied from. If Koati's `get_brand` shows a later one, the copy is behind; say so, and don't fix it unless a card asks.

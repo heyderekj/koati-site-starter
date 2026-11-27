@@ -24,4 +24,6 @@ Then, on GitHub, protect `main` (Settings → Branches) so changes arrive as pul
 - **By your assistant:** leave the card for it in Koati. It reads `AGENTS.md`, makes the change in `src/content/pages/`, and opens a pull request naming the card. You merge; Koati sees it go live.
 - **By hand:** edit `src/content/pages/*.md` and open a pull request.
 
+Every pull request runs `npm run brand-check`: it fails on a color, a typeface or words your brand in `brand/` rules out, and Koati shows what it found on the card.
+
 `npm install`, then `npm run dev` to work on it locally.

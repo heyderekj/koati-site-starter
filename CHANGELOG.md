@@ -2,6 +2,12 @@
 
 What changed in the starter, newest first. A site made from it brings these in through its own assistant (`AGENTS.md` § Updating from the starter). Each entry says what changed and where, so an assistant can tell which a site already has.
 
+## 2026-11-27 — The brand as files in the repository
+
+- `brand/DESIGN.md`, `brand/tokens.json` and `brand/rules.json`. The map says where the brand lives and what never to do; the two JSON files are a dated copy of what was approved in Koati, written by your assistant from `get_brand`. An assistant that never calls Koati still finds the brand in the repository.
+- `AGENTS.md` § The brand: write all of them, and `src/styles/tokens.css`, on the first pull request and again whenever an approved brand card is left for the assistant.
+- To bring it in: copy `brand/`, then have your assistant fill the two JSON files from `get_brand`, keeping your `tokens.css` as it is. Replace § The brand in your `AGENTS.md` with the starter's.
+
 ## 2026-11-26 — Koati can read and change the words
 
 - `/.well-known/koati-content.json`, built on every deploy from `src/content/pages/*.md` (`src/pages/.well-known/koati-content.json.ts`, `src/lib/content-manifest.ts`). Version 2 of Koati's format: each page's heading, lede and button label, and the file and frontmatter key the first two live at. With it, Koati reads the site's words and can turn a change somebody approves into a pull request on a `koati/` branch. The button label is nested, so its changes still go to your assistant.

@@ -2,6 +2,13 @@
 
 What changed in the starter, newest first. A site made from it brings these in through its own assistant (`AGENTS.md` § Updating from the starter). Each entry says what changed and where, so an assistant can tell which a site already has.
 
+## 2026-11-28 — The site's parts
+
+- `brand/parts.json`: the parts the pages are built from, each with its name, file and when to use it. The starter lists its four: Page, Main heading, Lede and Button. Koati reads the file from `main` with the repository connection and shows it on Brand as Parts, and `get_brand` and `get_handoff` carry it to the assistant. It's never served on the live site, which names fields and never files.
+- `npm run brand-check` fails on a component in `src/components/` that the list doesn't name, and on a part whose file isn't where the list says. A site with no `brand/parts.json` isn't held to a list.
+- `AGENTS.md` § The brand and `brand/DESIGN.md`: build from a listed part first. A new one goes on the list in the same pull request.
+- To bring it in: write `brand/parts.json` with your own parts (every file in `src/components/`, and anything else people will want reused), copy `scripts/brand-check.mjs` and its test, and take the new lines from `AGENTS.md` § The brand.
+
 ## 2026-11-27 — The brand check
 
 - `npm run brand-check` (`scripts/brand-check.mjs`): plain Node, nothing to install. It reads `brand/` and fails on a color or a font the kit hasn't got (when `brand/rules.json` has Koati's "only the kit's colors" or "only the kit's type"), on words a word rule rules out in `src/content/pages/`, and on a `src/styles/tokens.css` that says something `brand/tokens.json` doesn't. Each problem has its file and line, and for a color the kit's closest one. `npm test` checks the check.

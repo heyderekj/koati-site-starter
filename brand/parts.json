@@ -1,0 +1,9 @@
+{
+    "note": "The parts this site's pages are built from: what each is, its file, and when to use it. Koati reads this file from the main branch and shows it on Brand. A new part goes here in the same pull request that makes it.",
+    "parts": [
+        { "name": "Page", "file": "src/layouts/Base.astro", "use": "Every page sits in it: the brand's tokens, the measure, and Koati's one line. One layout for the whole site." },
+        { "name": "Main heading", "file": "src/pages/[...slug].astro", "use": "The page's one h1, from its heading. Says what the page is in a few words." },
+        { "name": "Lede", "file": "src/pages/[...slug].astro", "use": "The sentence or two under the heading, from its lede. Who it's for and what changes for them." },
+        { "name": "Button", "file": "src/pages/[...slug].astro", "use": "The .cta: the one thing on the page to press, on --accent. One per page. There is no second kind." }
+    ]
+}

@@ -1,8 +1,8 @@
 // `npm test`: the brand check against small sites made for each case.
 import assert from 'node:assert/strict';
-import { cpSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { after, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { breaks, checkRepository, frontmatter, rgbOf } from './brand-check.mjs';
@@ -26,7 +26,14 @@ function site(files = {}, rules = RULES) {
     made.push(dir);
     cpSync(starter, dir, { recursive: true, filter: (src) => !/node_modules|\.git$|[\\/]dist/.test(src) });
     writeFileSync(join(dir, 'brand/rules.json'), JSON.stringify({ agreed: '2026-11-27', rules }));
-    for (const [file, text] of Object.entries(files)) writeFileSync(join(dir, file), text);
+    for (const [file, text] of Object.entries(files)) {
+        if (text === null) {
+            rmSync(join(dir, file), { force: true });
+            continue;
+        }
+        mkdirSync(dirname(join(dir, file)), { recursive: true });
+        writeFileSync(join(dir, file), text);
+    }
     return checkRepository(dir);
 }
 
@@ -119,4 +126,22 @@ test('colors read the way a browser reads them', () => {
 test('frontmatter, with quotes and nesting', () => {
     const { fields } = frontmatter(['---', "heading: 'It''s here' # a comment", 'cta:', '  label: "Say \\"hi\\""', 'plain: words # gone', '---'].join('\n'));
     assert.deepEqual(fields, { heading: { text: "It's here", line: 2 }, 'cta.label': { text: 'Say "hi"', line: 4 }, plain: { text: 'words', line: 5 } });
+});
+
+test('a part the list does not name fails, and so does one that is not where the list says', () => {
+    const parts = JSON.stringify({
+        parts: [
+            { name: 'Hero', file: 'src/components/Hero.astro', use: 'The top of a page.' },
+            { name: 'Band', file: 'src/components/Band.astro', use: 'At most one a page.' },
+        ],
+    });
+    const result = site({
+        'brand/parts.json': parts,
+        'src/components/Hero.astro': '<section class="hero"><slot /></section>\n',
+        'src/components/PromoCard.astro': '<div class="promo"><slot /></div>\n',
+    });
+    assert.deepEqual(whats(result), ['brand/parts.json:1 Band: src/components/Band.astro', 'src/components/PromoCard.astro:1 A part brand/parts.json doesn’t name']);
+
+    assert.deepEqual(whats(site({ 'brand/parts.json': null, 'src/components/PromoCard.astro': '<div />\n' })), [], 'A site that lists no parts is not held to a list.');
+    assert.deepEqual(whats(site({ 'brand/parts.json': '{"note": "nothing"}' })), ['brand/parts.json:1 No list of parts']);
 });

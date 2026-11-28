@@ -13,6 +13,8 @@
  * - "Only the kit's type" (`kit_type`): every font family is one of the kit's.
  * - The word rules (`never`, `max_chars`, `no_exclamation`) on the words in
  *   `src/content/pages/`: the fields a page shows, and its body.
+ * - The parts in `brand/parts.json`, when the site lists them: each one's
+ *   file is there, and every component in `src/components/` is on the list.
  *
  * Lines at a width, and rules for one element picked on the site, need the
  * page in a browser: Koati checks those on the live page, as it always has.
@@ -42,6 +44,9 @@ export const FIELDS = {
 const CODE = new Set(['.astro', '.css', '.scss', '.sass', '.less', '.html', '.svg', '.vue', '.svelte', '.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.md', '.mdx']);
 const STYLESHEET = new Set(['.css', '.scss', '.sass', '.less']);
 const TOKENS_CSS = 'src/styles/tokens.css';
+
+/** What a part can be written as: a component in `src/components/`. */
+const PART = new Set(['.astro', '.tsx', '.jsx', '.vue', '.svelte']);
 
 /** Families that name no typeface: allowed after one of the kit's, as the fallback. */
 const GENERIC = new Set(['serif', 'sans-serif', 'monospace', 'cursive', 'fantasy', 'system-ui', 'ui-serif', 'ui-sans-serif', 'ui-monospace', 'ui-rounded', 'math', 'emoji', 'fangsong']);
@@ -470,6 +475,26 @@ export function checkRepository(root) {
     problems.push(...colorProblems, ...typeProblems);
     if (colorsRule && colorProblems.length === 0) passed.push(`Colors: only the kit's (${kit.colors.map((c) => c.name ?? c.hex).join(', ')})`);
     if (typeRule && typeProblems.length === 0) passed.push(`Type: only the kit's (${[...kit.type].join(', ')})`);
+
+    // The parts: each listed one where the list says, and no component the list doesn't name.
+    if (existsSync(join(root, 'brand/parts.json'))) {
+        const partFile = readJson(root, 'brand/parts.json', problems);
+        const parts = Array.isArray(partFile?.parts) ? partFile.parts.filter((p) => p && typeof p.file === 'string') : null;
+        if (partFile && !parts) {
+            problems.push({ file: 'brand/parts.json', line: 1, what: 'No list of parts', why: 'It holds "parts": a list, each with its name, file and when to use it.' });
+        }
+        if (parts) {
+            const before = problems.length;
+            const listed = new Set(parts.map((p) => p.file.replace(/^\.\//, '')));
+            for (const p of parts.filter((p) => !existsSync(join(root, p.file)))) {
+                problems.push({ file: 'brand/parts.json', line: 1, what: `${p.name ?? 'A part'}: ${p.file}`, why: "That file isn't here. Fix its path, or take the part off the list." });
+            }
+            for (const file of walk(join(root, 'src/components'), root).filter((f) => PART.has(extname(f).toLowerCase()) && !listed.has(f))) {
+                problems.push({ file, line: 1, what: 'A part brand/parts.json doesn’t name', why: 'Build from a part on the list, or add this one to brand/parts.json with when to use it, so a person can say yes to it.' });
+            }
+            if (problems.length === before) passed.push(`Parts: ${parts.length}, each where brand/parts.json says`);
+        }
+    }
 
     // The words on each page.
     const pages = walk(join(root, 'src/content/pages'), root).filter((f) => /\.mdx?$/.test(f));

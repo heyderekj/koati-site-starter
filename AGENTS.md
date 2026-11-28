@@ -24,6 +24,8 @@ Until the site carries the company's brand, those files hold the starter's. On y
 
 Leave out anything under `pending`. Nobody has approved it yet. Say in the pull request what you mapped to what.
 
+Before you make something new, look in `brand/parts.json`: build from the part that fits. When none does, make it in `src/components/` and add it to the list in the same pull request, with when to use it, and say so in `hand_back`. Koati reads the list from `main` and shows it on Brand; `get_handoff`'s `brand.parts` carries it too.
+
 `npm run brand-check` checks the site against them: only the kit's colors and type when the rules ask for it, the word rules on `src/content/pages/`, and `tokens.css` against `tokens.json`. Lines at a width and rules for one element are checked by Koati on the live page.
 
 After that, change these files only when a card asks: usually the board's brand card, approved and left for you. Write all four again from `get_brand` in one pull request, and never from memory of an earlier read.
@@ -36,7 +38,7 @@ When somebody asks you to bring this site up to date with the starter, read `CHA
 
 - Words: `src/content/pages/*.md`, one file per page. The frontmatter holds the parts people point at — `heading`, `lede`, `cta`.
 - The page: `src/pages/[...slug].astro`. The layout and Koati's one line: `src/layouts/Base.astro`, `src/lib/koati.ts`.
-- The brand: `brand/DESIGN.md` (the map), `brand/tokens.json`, `brand/rules.json`, and the same values as CSS in `src/styles/tokens.css`.
+- The brand: `brand/DESIGN.md` (the map), `brand/tokens.json`, `brand/rules.json`, `brand/parts.json` (the parts), and the same values as CSS in `src/styles/tokens.css`.
 - The brand check: `scripts/brand-check.mjs` (`npm run brand-check`; `npm test` checks it), run on each pull request by `.github/workflows/brand-check.yml`.
 - `data-koati-src="file:line"` on an element says where its words live. Keep it on anything you add that people will want to point at.
 - `data-koati-field="<page>.<field>"` beside it says which page and field the part shows (`index.heading`, `index.lede`, `index.cta_label`), so Koati can name the part and find its words. Unlike `data-koati-src` it's on production too: it names a field, never a file. Add both to anything new people will point at.
